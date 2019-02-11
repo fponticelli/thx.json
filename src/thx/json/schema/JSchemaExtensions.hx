@@ -69,7 +69,7 @@ class JSchemaExtensions {
       case FloatSchema: JObject(baseSchema("number", m, pm));
       case BoolSchema:  JObject(baseSchema("boolean", m, pm));
 
-      case StrSchema:   
+      case StrSchema:
         var strMetaAttrs = schema.annotation.strMetadata().toArray().flatMap(
           function(strm: StrMetadata) return [
             if (strm.minLength != null) { name: "minLength", value: JNum(strm.minLength) } else null,
@@ -80,12 +80,12 @@ class JSchemaExtensions {
 
         JObject(baseSchema("string", m, pm).concat(strMetaAttrs));
 
-      case AnySchema:   
+      case AnySchema:
         JObject(baseSchema("object", m, pm));
 
       case ConstSchema(_):
         jObject([
-          "type" => jString("object"), 
+          "type" => jString("object"),
           "additionalProperties" => jBool(false),
           "options" => jObject([ "hidden" => jBool(true) ])
         ]);
@@ -226,7 +226,7 @@ class JSchemaExtensions {
 
   public static function withTitle<E, A>(s: JSchema<E, A>, title: String): JSchema<E, A> {
     function modify(v: ValMetadata) return switch v {
-      case CommonM(m): 
+      case CommonM(m):
         CommonM({
           title: title,
           id: m.id,
@@ -235,7 +235,7 @@ class JSchemaExtensions {
           hidden: m.hidden,
           opts: m.opts
         });
-      case StrM(m): 
+      case StrM(m):
         StrM({
           title: title,
           id: m.id,

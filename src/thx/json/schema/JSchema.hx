@@ -70,9 +70,9 @@ class SchemaDSL {
     return liftMS(m, MapSchema(valueSchema));
 
   public static function keyedDict<E, K, A>(
-      m: CommonMetadata, 
-      keyParser: String -> ParseResult<E, String, K>, 
-      kf: K -> String, 
+      m: CommonMetadata,
+      keyParser: String -> ParseResult<E, String, K>,
+      kf: K -> String,
       errs: Semigroup<E>,
       keyOrder: Ord<K>,
       valueSchema: JSchema<E, A>): JSchema<E, thx.fp.Map<K, A>> {
@@ -112,7 +112,7 @@ class SchemaDSL {
   // Constructors for oneOf alternatives
   //
 
-  public static function alt<E, A, B>(id: String, m: CommonMetadata, base: JSchema<E, B>, f: B -> A, g: A -> Option<B>): Alternative<E, JSMeta, A> 
+  public static function alt<E, A, B>(id: String, m: CommonMetadata, base: JSchema<E, B>, f: B -> A, g: A -> Option<B>): Alternative<E, JSMeta, A>
     return Prism(id, base, Alt(m), f, g);
 
   public static function constAlt<E, B>(id: String, m: CommonMetadata, b: B, equal: B -> B -> Bool): Alternative<E, JSMeta, B>
@@ -147,7 +147,7 @@ class SchemaDSL {
   // Convenience constructor for a single-property object schema that simply wraps another schema.
   public static function wrap<E, A>(fieldName: String, valueSchema: JSchema<E, A>, ?m: CommonMetadata): JSchema<E, A> {
     return object(
-      if (m == null) valueSchema.annotation.commonMetadata() else m, 
+      if (m == null) valueSchema.annotation.commonMetadata() else m,
       required(fieldName, {}, valueSchema, function(a: A) return a)
     );
   }
